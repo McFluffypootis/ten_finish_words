@@ -20,11 +20,13 @@ async fn main() -> Result<(), std::io::Error> {
     let confguration = get_configuration().expect("Failed to read config");
 
     let connection_pool =
-        PgPool::connect(&confguration.database.connection_string().expose_secret())
-            .await
+        PgPool::connect_lazy(&confguration.database.connection_string().expose_secret())
             .expect("Failed to connect to Postgres");
 
-    let address = format!("127.0.0.1:{}", confguration.application_port);
+    let address = format!(
+        "{}:{}",
+        confguration.application.host, confguration.application.port
+    );
     let listener = TcpListener::bind(address).expect("Failed to bind to random port");
 
     run(listener, connection_pool)?.await
