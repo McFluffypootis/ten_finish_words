@@ -1,9 +1,5 @@
-use std::net::TcpListener;
-
 use actix_web::{App, HttpResponse, HttpServer, Responder, dev::Server, web};
-use sqlx::{PgConnection, PgPool};
-
-use tracing::Instrument;
+use sqlx::PgPool;
 
 use chrono::Utc;
 use uuid::Uuid;
@@ -35,7 +31,6 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
 }
 
 #[tracing::instrument(name = "Inserting subscriber to database", skip(pool, form))]
-
 pub async fn insert_subscriber(pool: &PgPool, form: &FormData) -> Result<(), sqlx::Error> {
     sqlx::query!(
         r#"

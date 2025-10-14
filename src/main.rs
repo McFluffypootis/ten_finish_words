@@ -2,19 +2,19 @@ use std::net::TcpListener;
 
 use secrecy::ExposeSecret;
 use sqlx::PgPool;
+use ten_finish_words::configuration::get_configuration;
+use ten_finish_words::startup::*;
 use tracing_log::LogTracer;
-use zero2production::configuration::get_configuration;
-use zero2production::startup::*;
 
 use tracing::{Subscriber, subscriber::set_global_default};
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
 use tracing_subscriber::{EnvFilter, Registry, layer::SubscriberExt};
 
-use zero2production::telemetry::{get_subscriber, init_subscriber};
+use ten_finish_words::telemetry::{get_subscriber, init_subscriber};
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    let subscriber = get_subscriber("zero2prod".into(), "info".into(), std::io::stdout);
+    let subscriber = get_subscriber("ten_finish_words".into(), "info".into(), std::io::stdout);
     init_subscriber(subscriber);
 
     let confguration = get_configuration().expect("Failed to read config");
