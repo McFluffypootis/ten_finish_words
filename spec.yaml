@@ -1,0 +1,26 @@
+name: ten_finish_words
+
+region: fra
+services:
+  - name: ten_finish_words
+    dockerfile_path: Dockerfile 
+    source_dir: .
+    github: 
+      branch: main
+
+      deploy_on_push: true
+
+      repo: McFluffypootis/ten_finish_words 
+
+    health_check:
+      http_path: /health_check
+
+
+    http_port: 8000
+
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+
+    routes:
+      - path: /
+
