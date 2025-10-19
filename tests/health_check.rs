@@ -69,6 +69,35 @@ pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
         .await
         .expect("Failed to migrate the database");
 
+    sqlx::query!(
+        r#"
+    INSERT INTO words (id, word, translation ,word_type)
+    VALUES ($1, 'yksi', 'one', 'noun'),
+           ($2, 'yksi', 'one', 'noun'),
+           ($3, 'yksi', 'one', 'noun'),
+           ($4, 'yksi', 'one', 'noun'),
+           ($5, 'yksi', 'one', 'noun'),
+           ($6, 'yksi', 'one', 'noun'),
+           ($8, 'yksi', 'one', 'noun'),
+           ($9, 'yksi', 'one', 'noun'),
+           ($10, 'yksi', 'one', 'noun');
+            
+        "#,
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4(),
+        Uuid::new_v4()
+    )
+    .execute(&connection_pool)
+    .await
+    .expect("Failed to insert test values");
+
     connection_pool
 }
 
@@ -161,5 +190,10 @@ async fn get_words_works() {
         .await
         .expect("Failed to desearialize words JSON reponse");
 
-    assert_eq!("hello", json_bod.message)
+    assert_eq!("hello", json_bod.message);
+
+    assert_eq!(
+        vec!["WORD1".to_string(), "WORD2".to_string()],
+        json_bod.words
+    )
 }
