@@ -73,14 +73,15 @@ pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
         r#"
     INSERT INTO words (id, word, translation ,word_type)
     VALUES ($1, 'yksi', 'one', 'noun'),
-           ($2, 'yksi', 'one', 'noun'),
-           ($3, 'yksi', 'one', 'noun'),
-           ($4, 'yksi', 'one', 'noun'),
-           ($5, 'yksi', 'one', 'noun'),
-           ($6, 'yksi', 'one', 'noun'),
-           ($8, 'yksi', 'one', 'noun'),
-           ($9, 'yksi', 'one', 'noun'),
-           ($10, 'yksi', 'one', 'noun');
+           ($2, 'kaksi', 'one', 'noun'),
+           ($3, 'kolme', 'one', 'noun'),
+           ($4, 'neljä', 'one', 'noun'),
+           ($5, 'viisi', 'one', 'noun'),
+           ($6, 'kooksi', 'one', 'noun'),
+           ($7, 'seitsemän', 'one', 'noun'),
+           ($8, 'kahdeksan', 'one', 'noun'),
+           ($9, 'yhdeksan', 'one', 'noun'),
+           ($10, 'kymenen', 'one', 'noun');
             
         "#,
         Uuid::new_v4(),
@@ -190,10 +191,8 @@ async fn get_words_works() {
         .await
         .expect("Failed to desearialize words JSON reponse");
 
-    assert_eq!("hello", json_bod.message);
+    assert_eq!("Hei", json_bod.message);
 
-    assert_eq!(
-        vec!["WORD1".to_string(), "WORD2".to_string()],
-        json_bod.words
-    )
+    assert_eq!("yksi".to_string(), json_bod.words[0]);
+    assert_eq!("kaksi".to_string(), json_bod.words[1]);
 }
