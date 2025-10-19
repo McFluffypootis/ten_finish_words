@@ -8,6 +8,8 @@ use ten_finish_words::startup::run;
 use ten_finish_words::telemetry::{get_subscriber, init_subscriber};
 use uuid::Uuid;
 
+use ten_finish_words::routes::WordResponse;
+
 static TRACING: Lazy<()> = Lazy::new(|| {
     let default_filter_layer = "info".to_string();
     let subcriber_name = "test".to_string();
@@ -151,5 +153,13 @@ async fn get_words_works() {
         .expect("Failed to execute request");
 
     assert!(response.status().is_success());
-    assert_eq!(Some(0), response.content_length());
+
+    assert_ne!(Some(0), response.content_length());
+
+    let json_bod = response
+        .json::<WordResponse>()
+        .await
+        .expect("Failed to desearialize words JSON reponse");
+
+    assert_eq!("hello", json_bod.message)
 }
