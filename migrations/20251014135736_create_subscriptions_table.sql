@@ -13,5 +13,5 @@ PRIMARY KEY (id),
 word TEXT NOT NULL UNIQUE,
 translation TEXT NOT NULL,
 word_type TEXT NOT NULL,
-access_count INTEGER NOT NULL,
+access_count INTEGER NOT NULL
 );
