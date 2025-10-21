@@ -12,26 +12,6 @@ use tracing_subscriber::{EnvFilter, Registry, layer::SubscriberExt};
 
 use ten_finish_words::telemetry::{get_subscriber, init_subscriber};
 
-/*
-*
-* CREATE TABLE subscriptions(
-id uuid NOT NULL,
-PRIMARY KEY (id),
-email TEXT NOT NULL UNIQUE,
-name TEXT NOT NULL,
-subscribed_at timestamptz NOT NULL
-);
-
-CREATE TABLE words(
-id uuid NOT NULL,
-PRIMARY KEY (id),
-word TEXT NOT NULL UNIQUE,
-translation TEXT NOT NULL,
-word_type TEXT NOT NULL,
-access_count INTEGER NOT NULL DEFAULT 0
-);
-*/
-
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
     let subscriber = get_subscriber("ten_finish_words".into(), "info".into(), std::io::stdout);
