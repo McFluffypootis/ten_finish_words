@@ -2,15 +2,14 @@
 # Ten finish words
 
 To run first migrate Postgres database
-'''
+``` 
 ./scripts/init_db.sh
-'''
-
+``` 
 then simpy run
 
-'''
+``` 
 cargo run
-'''
+``` 
 
 # References
 
